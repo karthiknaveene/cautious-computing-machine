@@ -1,0 +1,17 @@
+name: Scheduled Workflow Every 7 Minutes
+
+on:
+  schedule:
+    - cron: '*/7 * * * *'
+  workflow_dispatch:  # Add this for manual testing
+
+jobs:
+  run-scheduled-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Run scheduled task
+        run: echo "Running scheduled task at $(date -u)"
