@@ -1,9 +1,9 @@
 name: Scheduled Workflow Every 7 Minutes
 
-on:
-  schedule:
-    - cron: '*/7 * * * *'
-  workflow_dispatch:  # Add this for manual testing
+# on:
+#   schedule:
+#     - cron: '*/7 * * * *'
+  # workflow_dispatch:  # Add this for manual testing
 
 jobs:
   run-scheduled-task:
