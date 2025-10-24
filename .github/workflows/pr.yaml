@@ -1,0 +1,28 @@
+name: pr
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Start Message-1-1
+        run: echo "Workflow started..."
+      - name: Print Start Message-sleep 30
+        run: sleep 20
+      - name: Print Start Message-2-1
+        run: echo "Workflow started..."
+        
+  job2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Start Message-1-2
+        run: echo "Workflow started..."
+      - name: Print Start Message-sleep 30
+        run: sleep 30
+      - name: Print Start Message-2-2
+        run: echo "Workflow started..."
