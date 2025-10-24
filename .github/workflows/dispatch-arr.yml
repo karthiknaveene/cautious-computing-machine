@@ -1,0 +1,28 @@
+name: Sample CI/CD Workflow
+
+on: [pull_request_target, push, workflow_dispatch]
+
+jobs:
+  job1-kn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+
+  job2-kn:
+    runs-on: ubuntu-latest
+    needs: job1-kn  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+     
+
+  job3:
+    runs-on: ubuntu-latest
+    needs: [job1-kn, job2-kn]  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+     
