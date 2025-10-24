@@ -1,0 +1,65 @@
+name: Test My Go Action-1
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches:
+     - feature-2
+      
+jobs:
+  run-go-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Run CloudBees platform workflow
+        uses: cloudbees-io-gha/run-cloudbees-workflow@v1
+        id: run-workflow
+        with:
+          workflow-file-name: "pr.yaml"
+          branch-name: "main"
+          cloudbees-pat: ${{ secrets.PROD_PAT }}
+          
+      - name: Checkout Repository - v1
+        uses: actions/checkout@v3
+        with:
+          repository: apache/commons-lang
+      - name: Run Tests with Maven - v1
+        run: |
+          mvn test -Dtest=StringUtilsTest
+          ls -lrt
+          
+      - name: Run My Custom Go Action for GO - V1 
+        uses: cloudbees-io-gha/publish-test-results@v2
+        with:
+          test-type: JUNIT
+          results-path: target/surefire-reports/*
+
+      - name: Register Build Artifacts in Cloudbees Platform
+        uses: cloudbees-io-gha/register-build-artifact@v3.0.2
+        id: build-artifacts
+        with:
+          name: "App13-Backend"
+          version: 2.0.0
+          url: docker.io/App13/App13-Backend:2.0.0
+          type: "docker"
+
+      - name: Publish evidence
+        uses: cloudbees-io-gha/publish-evidence-item@v2
+        with:
+          content: |-
+            # Sample Markdown evidence output
+            - Application endpoint: https://app.example.com/qa
+            - Artifacts
+              - [backend.jar](https://example.com/repo/app/v1.0/backend.jar)
+              
+      - name: Use runUrl output
+        run: echo "The CloudBees run URL is ${{ steps.go-action.outputs.cbp_run_url}}"
+        
+
+
+      
