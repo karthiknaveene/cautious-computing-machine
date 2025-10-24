@@ -1,0 +1,17 @@
+name: Caller Workflow 
+
+on:
+  push:
+    branches: main
+
+jobs:
+  reusable-1:
+    uses: ./.github/workflows/reusable-workflow.yaml
+    with:
+      node-version: "20"
+      run-tests: true
+  reusable-2:
+    uses: ./.github/workflows/reusable-workflow.yaml
+    with:
+      node-version: "20"
+      run-tests: false
